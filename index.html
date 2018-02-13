@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no,
+          initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title></title>
+    <style>
+        *{margin: 0; padding: 0; }
+        html,body{width: 100%; height: 100%; overflow: hidden;}
+
+        .music{width: 0.88rem; height: 0.88rem; position: absolute; font-size: 0;
+            top: 0.2rem;right: 0.2rem; cursor: pointer; overflow: hidden; z-index: 999;}
+        .rotateMusic{animation: musics 1s linear infinite;}
+        .music>img{width: 100%; height: 100%; }
+
+        @keyframes musics {
+            0%{transform: rotate(0deg)}
+            100%{transform: rotate(360deg)}
+        }
+        .main{height: 100%; width: 100%; position: relative;}
+        .page{width:100%; height: 100%; transition: transform 1s ease;
+                position: absolute;}
+        .page1{background: red; box-sizing: border-box; padding-top: 1.5rem; }
+        .tu{width: 2.2rem; height: 2.2rem; margin: 0 auto;
+            animation: toxiang 1.2s ease;}
+        .tu>img{width: 100%; height: 100%; border-radius: 50%;}
+        @keyframes toxiang {
+            0%{transform: translateX(-7rem)}
+            100%{transform: translateX(0)}
+        }
+
+
+        .text{font-size: 0.4rem; text-align: center; color: white; font-weight: normal;
+             margin-left: -200%; margin-top: 0.05rem; animation: moveText 1s ease forwards;
+            font-family: 微软雅黑;}
+            @keyframes moveText {
+                0%{margin-left:-200%;}
+                100%{margin-left: 0;}
+            }
+            @keyframes arrow {
+                0%{bottom: 0.3rem;}
+                80%{bottom: 1.5rem;}
+                100%{ opacity: 0;}
+            }
+        .delay1{animation-delay: 1s;}
+        .delay2{animation-delay: 2s;}
+        .delay3{animation-delay: 3s;}
+
+        .arrow{  width: 0.86rem; height: 0.66rem; position: absolute; bottom: 0.3rem;
+                left: 45%; animation: arrow 1s ease infinite; z-index: 999;}
+        .arrow>img{width: 100%; height: 100%;}
+
+        .page2{background: #1ea5ff;}
+        .page2>.box>h2{font-size: 0.36rem; text-align: center; background: firebrick;
+                    animation: ads 2s linear; position: absolute; top:50%; left: 50%;}
+        .page3>.box>h2{font-size: 0.36rem; text-align: center; background: firebrick;
+            animation: ads 2s linear; position: absolute; top:50%; left: 50%;}
+        @keyframes ads {
+            0%{transform: rotate(0deg) scale(0);}
+            100%{transform: rotate(360deg) scale(1);}
+        }
+        .pageUp{transform: translateY(-100%);}
+        .pageDown{transform: translateY(100%);}
+
+        .page3{background: deeppink;}
+        .hide{display: none;}
+
+    </style>
+</head>
+<body>
+    <div class="music rotateMusic">
+        <img src="./images/music.png" alt=""/>
+    </div>
+    <audio id="play" src="source/I%20dou.mp3" autoplay></audio>
+    <div class="main">
+        <div class="arrow"><img src="./images/arrow.png" alt=""/></div>
+        <div class="page page1">
+            <div class="box">
+                <div class="tu"><img src="./images/photo.jpg" alt=""/></div>
+
+                <p class="text delay1">姓名:耿志佳</p>
+                <p class="text delay2">性别:男</p>
+                <p class="text delay3">生日:1999.08.22</p>
+            </div>
+        </div>
+        <div class="page page2 pageDown">
+
+            <div class="box hide">
+                <h2>第二屏</h2>
+            </div>
+
+        </div>
+        <div class="page page3 pageDown">
+            <div class="box hide">
+            <h2>第三屏</h2>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="js/fontsize.js"></script>
+<script src="js/zepto.min.js"></script>
+<script src="js/touch-0.2.14.min.js"></script>
+<script>
+   touch.on(".music","tap",function(){
+       $(".music").toggleClass("rotateMusic");
+       var audio=$("#play").get(0);
+       if(audio.paused){
+           audio.play();//播放
+       }else{
+           audio.pause();//暂停
+       }
+   })
+//向上滑动
+   var i=0;
+    touch.on(".main","swipeup",function(){
+        var num=$(".page").length-1;
+        if(i<num){
+            $(".page").eq(i).addClass("pageUp");
+            $(".page").eq(i).children(".box").addClass("hide");
+            i++;
+            $(".page").eq(i).removeClass("pageDown");
+            $(".page").eq(i).children(".box").removeClass("hide");
+
+        }
+
+    });
+
+   touch.on(".main","swipedown",function(){
+       if(i>0){
+           $(".page").eq(i).addClass("pageDown");
+           $(".page").eq(i).children(".box").addClass("hide");
+           i--;
+           $(".page").eq(i).removeClass("pageUp");
+           $(".page").eq(i).children(".box").removeClass("hide");
+
+   }
+
+   })
+</script>
